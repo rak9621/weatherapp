@@ -1,0 +1,54 @@
+<div class="search-container mt-4">
+  <form (submit)="search()" [formGroup]="searchForm" novalidate>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input class="form-control" type="text" formControlName="locationQuery" placeholder="Enter location/zip code">
+          <div class="input-group-append ">
+            <button type="submit" class="btn btn-info">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="searchForm.controls['locationQuery'].invalid && (searchForm.controls['locationQuery'].dirty || searchForm.controls['locationQuery'].touched)"
+      class="text-center text-info mt-3"> <h4>Invalid location</h4></div>
+    <div *ngIf="error"  class="text-center text-info mt-4"><h4> {{ error }} </h4></div>
+  </form>
+</div>
+
+
+
+<div *ngIf="weatherData" class="weather-container mt-4">
+  <div class="d-flex justify-content-center">
+    <h2 class="text-info">{{ weatherData.name }}</h2>
+    <div style={}>
+      <img [src]="'http://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '.png'" alt="Weather Icon">
+    </div>
+    <div class="weather-details">
+      <h1 class="text-info">{{ weatherData.main.temp | temperature }}</h1>
+      <h4 class="text-info">{{ weatherData.weather[0].description }}</h4>
+      <h4 class="text-info">Wind: {{ weatherData.wind.speed }} m/s</h4>
+      <h4 class="text-info">Humidity: {{ weatherData.main.humidity }}%</h4>
+    </div>
+  </div>
+</div>
+<div *ngIf="forecastData" class="container mt-4">
+  <h3 class="m-3 text-info">Forecast</h3>
+  <div  *ngFor="let forecast of forecastData">
+    <div class="item">
+      <div  >
+      <p class="date">{{ forecast.date }}</p>
+      <img [src]="'http://openweathermap.org/img/wn/' + forecast.icon+ '.png'" alt="Weather Icon">
+    </div>
+    <div  >
+      <p >{{ forecast.lowTemp| temperature }} / {{ forecast.highTemp| temperature }}</p>
+      <p >{{ forecast.weatherConditions }}</p>
+      <p >Precipitation: {{ forecast.precipitation }}%</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+
